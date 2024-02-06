@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Student Records</title>
+</head>
+<body>
+
+  <h1>Student Records</h1>
+
+  <form id="studentForm">
+    <label for="studentId">Student ID:</label>
+    <input type="text" id="studentId" required>
+
+    <label for="studentName">Student Name:</label>
+    <input type="text" id="studentName" required>
+
+    <label for="dob">Date of Birth:</label>
+    <input type="date" id="dob" required>
+
+    <label for="email">Email:</label>
+    <input type="email" id="email" required>
+
+    <button type="button" onclick="addStudent()">Add Student</button>
+  </form>
+
+  <label for="searchBar">Search Student by ID:</label>
+  <input type="text" id="searchBar" oninput="searchStudent()">
+
+  <h2>Student Records:</h2>
+  <ul id="studentList"></ul>
+
+  <script>
+    // Array to store student records
+    let students = [];
+
+    function addStudent() {
+      // Get form values
+      let studentId = document.getElementById('studentId').value;
+      let studentName = document.getElementById('studentName').value;
+      let dob = document.getElementById('dob').value;
+      let email = document.getElementById('email').value;
+
+      // Create a student object
+      let student = { id: studentId, name: studentName, birthdate: dob, email: email };
+
+      // Add student to the array
+      students.push(student);
+
+      // Display updated student list
+      displayStudents();
+
+      // Clear the form
+      document.getElementById('studentForm').reset();
+    }
+
+    function displayStudents() {
+      let studentList = document.getElementById('studentList');
+      studentList.innerHTML = ''; // Clear previous list
+
+      // Display each student in the list
+      students.forEach(student => {
+        let listItem = document.createElement('li');
+        listItem.textContent = `ID: ${student.id}, Name: ${student.name}, DOB: ${student.birthdate}, Email: ${student.email}`;
+        studentList.appendChild(listItem);
+      });
+    }
+
+    function searchStudent() {
+      let searchTerm = document.getElementById('searchBar').value.toLowerCase();
+
+      // Filter students based on search term
+      let searchResults = students.filter(student => student.id.toLowerCase().includes(searchTerm));
+
+      // Display filtered results
+      displayFilteredStudents(searchResults);
+    }
+
+    function displayFilteredStudents(results) {
+      let studentList = document.getElementById('studentList');
+      studentList.innerHTML = ''; // Clear previous list
+
+      // Display each result in the list
+      results.forEach(student => {
+        let listItem = document.createElement('li');
+        listItem.textContent = `ID: ${student.id}, Name: ${student.name}, DOB: ${student.birthdate}, Email: ${student.email}`;
+        studentList.appendChild(listItem);
+      });
+    }
+  </script>
+
+</body>
+</html>
